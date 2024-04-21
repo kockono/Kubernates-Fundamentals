@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  labels:
+    app: postgres
+spec:
+  replicas: 1 # Numero de replicas
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15.1 # Imagen de dockerfile
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom: # De donde voy a obtener el valor
+            secretKeyRef: # Referencia a un secreto
+              name: postgres-secrets # Referencía de "postgres-secrets.yml"
+              key: DB_PASSWORD # Llave secreta de "postgres-secrets.yml"
+--- # Voy a crear un nuevo archivo en este caso Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service # conexión con: DB_HOST: posgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432 # Puede ser cualquier puerto
+      targetPort: 5432 # El puerto donde trabaja el "containerPort"
