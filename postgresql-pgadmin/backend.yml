@@ -29,19 +29,19 @@ spec:
         - name: DB_NAME
           valueFrom:
             configMapKeyRef:
-              name: postgres-config
-              key: DB_NAME
-        - name: DB_HOST
+              name: postgres-config # Referencia a "postgres-config.yml"
+              key: DB_NAME          # Llave de "postgres-config.yml"
+        - name: DB_HOST             # Referencia a "postgres-config.yml"
           valueFrom:
             configMapKeyRef:
-              name: postgres-config
-              key: DB_HOST
+              name: postgres-config # Referencia a "postgres-config.yml"
+              key: DB_HOST          # Llave de "postgres-config.yml"
               
         - name: DB_PORT
           valueFrom:
             configMapKeyRef:
-              name: postgres-config
-              key: DB_PORT
+              name: postgres-config # Referencia a "postgres-config.yml"
+              key: DB_PORT          # Llave de "postgres-config.yml"
 
         - name: DB_USERNAME
           valueFrom:
@@ -52,8 +52,8 @@ spec:
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres-secrets
-              key: DB_PASSWORD
+              name: postgres-secrets # Referencia a "postgres-secrets.yml"
+              key: DB_PASSWORD       # Llave secret de "postgres-secrets.yml"
 
         - name: JWT_SECRET
           valueFrom:
